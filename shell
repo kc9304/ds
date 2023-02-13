@@ -1,0 +1,49 @@
+#include <stdio.h>    
+int shell(int a[], int n)  
+{  
+    for (int gap = n/2; gap > 0; gap /= 2)  
+    {  
+        for (int i = gap; i< n; i++)  
+        {  
+            int temp = a[i];  
+            int j;        
+            for (j = i; j >= gap && a[j - gap] > temp; j -= gap)  
+                a[j] = a[j - gap];  
+              
+            a[j] = temp;  
+            for(int i=0;i<n;i++)
+    {
+        printf("%d  ",a[i]);
+    }
+    printf("\n");
+        }  
+    }  
+    
+    return 0;
+}  
+void printArr(int a[], int n)  
+{  
+    int i;  
+    for (i = 0; i < n; i++) 
+    {
+        printf("%d ", a[i]);  
+    }
+    printf("\n");
+}    
+int main()  
+{  
+    int n;
+    scanf("%d",&n);
+    int a[n];
+    int i;
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&a[i]);
+    }
+    printf("Before sorting array elements are - \n");  
+    printArr(a, n);  
+    shell(a, n);  
+    printf("\nAfter applying shell sort, the array elements are - \n");    
+    printArr(a, n);  
+    return 0;  
+}  
