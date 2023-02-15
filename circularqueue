@@ -1,0 +1,101 @@
+#include<stdio.h>
+#define size 5
+
+int q[size];
+int front =-1;
+int rear =-1;
+
+void enqueue()
+{
+	int x;
+	if((rear+1)%size==front)
+	{
+		printf("\n Queue is full\n");
+	}
+	else
+	{
+		printf("Enter the Value :");
+		scanf("%d",&x);
+		if(rear==-1&&front==-1)
+		{
+			front=rear=0;
+			q[rear]=x;
+		}
+		else
+		{
+			rear=(rear+1)%size;
+			q[rear]=x;
+		}
+	}
+}
+
+void dequeue()
+{
+	if(front==-1)
+	{
+		printf("\nQueue is emepty\n");
+	}
+	else
+	{
+		if(front == rear)
+		{
+			printf("\nDequeued element :d\n",q[front]);
+			front=rear=-1;
+		}
+		else
+		{
+			printf("\nDequeued element :%d\n",q[front]);
+			front=(front+1)%size;
+		}
+	}
+}
+
+void display()
+{
+	int i=front;
+	
+	if(front==-1)
+	{
+		printf("\nQueue is emepty");
+		
+	}
+	else
+	{
+	printf("\nQueue elements :");
+	while(i!=rear)
+	{
+		printf("%d ",q[i]);
+		i=(i+1)%size;
+	}
+	printf(" %d\n",q[rear]);
+}
+}
+int main()
+{
+	int choice;
+	do
+	{
+		printf("1.enqueue\n2.dequeue\n3.display\n4.exit\n");
+		printf("Emter the choice :");
+		scanf("%d",&choice);
+		switch (choice)
+		  {
+		  	case 1:
+		  		 enqueue();
+		  		 break;
+		    case 2:
+		    	 dequeue();
+		    	 break;
+		    case 3:
+		    	 display();
+		    	 break;
+		    case 0:
+		    	break;
+		    default:
+		    	printf("Invalid choice");
+		  }
+	}while(choice!=0);
+	
+	return 0;
+	
+}
