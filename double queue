@@ -1,0 +1,163 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define size 5
+
+int q[size];
+int front=-1;
+int rear=-1;
+
+void enqueue_rear()
+{
+	int x;
+	if((rear+1)%size==front)
+	{
+		printf("\nQueue is full.");
+	}
+	else
+	{
+		printf("Enter the value : ");
+		scanf("%d",&x);
+		if(rear==-1)
+		{
+			front=rear=0;
+			q[rear]=x;
+		}
+		else
+		{
+			rear=(rear+1)%size;
+			q[rear]=x;
+		}
+	}
+}
+
+void enqueue_front()
+{
+	int x;
+	if((rear+1)%size==front)
+	{
+		printf("\nQueue is full.");
+	}
+	else
+	{
+		printf("\nEnter the value : ");
+		scanf("%d",&x);
+		if(front==-1)
+		{
+			front=rear=0;
+			q[front]=x;
+		}
+		else
+		{
+			if(front==0)
+			{
+				front=size-1;
+				q[front]=x;
+			}
+			else
+			{
+				q[--front]=x;
+			}
+		}
+	}
+	
+}
+void dequeue_front()
+{
+	if(front==-1)
+	{
+		printf("\nQueue is empty.");
+	}
+	else
+	{
+		if(front==rear)
+		{
+			printf("\nDequeued element is %d",q[front]);
+			front=rear=-1;
+		}
+		else
+		{
+			printf("\nDequeued element is %d",q[front]);
+			front=(front+1)%size;
+		}
+	}
+}
+void dequeue_rear()
+{
+	if(front==-1)
+	{
+		printf("\nQueue is empty.");
+	}
+	else
+	{
+		if(front==rear)
+		{
+			printf("\nDequeued element is %d",q[front]);
+			front=rear=-1;
+		}
+		else
+		{
+			printf("\nDequeued element is : %d ",q[rear]);
+			if(rear==0)
+			{
+				rear=size-1;
+			}
+			else
+			{
+				rear--;
+			}
+		}
+	}
+}
+
+void display()
+{
+	int i=front;
+	if(front==-1)
+	{
+		printf("\nQueue is empty.");
+	}
+	else
+	{
+		printf("\n\n The queue is : ");
+		while(i!=rear)
+		{
+			printf("%d   ",q[i]);
+			i=(i+1)%size;
+		}
+		printf("%d  ",q[i]);
+	}	
+}
+
+int main()
+{
+	int c;
+	while(1)
+	{
+		printf("\n1. Enqueue Rear\n2. Enqueue Front ");
+		printf("\n3. Dequeue Rear\n4. Dequeue Front\n5. Display");
+		printf("\n6. Exit \nEnter you choice : ");
+		scanf("%d",&c);
+		switch(c)
+		{
+			case 1:
+				enqueue_rear();
+				break;
+			case 2:
+				enqueue_front();
+				break;
+			case 3:
+				dequeue_rear();
+				break;
+			case 4:
+				dequeue_front();
+				break;
+			case 5:
+				display();
+				break;
+			case 6:
+				exit(0);
+			default:
+				printf("Wrong choice ");
+		}
+	}
+}
