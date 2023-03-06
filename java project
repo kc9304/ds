@@ -1,0 +1,89 @@
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+
+public class CarRentalGUI extends JFrame implements ActionListener {
+    private JLabel aadharLabel;
+    private JTextField aadharField;
+    private JLabel panLabel;
+    private JTextField panField;
+    private JLabel dlLabel;
+    private JTextField dlField;
+    private JButton confirmButton;
+    private JLabel carLabel;
+    private JComboBox<String> carList;
+    private JButton rentButton;
+    private JTextArea receiptArea;
+
+    private String[] cars = {"Honda City", "Toyota Corolla", "Maruti Swift"};
+    private double[] prices = {50.0, 40.0, 30.0};
+    private String[] stateCodes = {"AP", "AR", "AS", "BR", "CG", "GA", "GJ", "HR", "HP", "JK", "JH", "KA", "KL", "MP", "MH", "MN", "ML", "MZ", "NL", "OD", "PB", "RJ", "SK", "TN", "TG", "TR", "UP", "UK", "WB"};
+
+    public CarRentalGUI() {
+        super("Car Rental Interface");
+        setLayout(new FlowLayout());
+
+        aadharLabel = new JLabel("Aadhar Card Number: ");
+        add(aadharLabel);
+
+        aadharField = new JTextField(12);
+        add(aadharField);
+
+        panLabel = new JLabel("PAN Card Number: ");
+        add(panLabel);
+
+        panField = new JTextField(10);
+        add(panField);
+
+        dlLabel = new JLabel("Driving License Number: ");
+        add(dlLabel);
+
+        dlField = new JTextField(15);
+        add(dlField);
+
+        confirmButton = new JButton("Confirm Details");
+        confirmButton.addActionListener(this);
+        add(confirmButton);
+
+        carLabel = new JLabel("Choose a Car: ");
+        add(carLabel);
+
+        carList = new JComboBox<String>(cars);
+        add(carList);
+
+        rentButton = new JButton("Rent Car");
+        rentButton.addActionListener(this);
+        add(rentButton);
+
+        receiptArea = new JTextArea(10, 30);
+        receiptArea.setEditable(false);
+        add(new JScrollPane(receiptArea));
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == confirmButton) {
+            String aadhar = aadharField.getText();
+            String pan = panField.getText();
+            String dl = dlField.getText();
+            boolean aadharValid = isValidAadhar(aadhar);
+            boolean panValid = isValidPan(pan);
+            boolean dlValid = isValidDl(dl);
+            if (aadharValid && panValid && dlValid) {
+                JOptionPane.showMessageDialog(this, "Details confirmed. You can now choose a car.");
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid details. Please try again.");
+            }
+        } else if (e.getSource() == rentButton) {
+            int carIndex = carList.getSelectedIndex();
+            double price = prices[carIndex];
+            String carName = cars[carIndex];
+            receiptArea.setText("Car Rental Receipt\n");
+            receiptArea.append("==================\n");
+            receiptArea.append("Car: " + carName + "\n");
+            receiptArea.append("Price: $" + price + "\n");
+            receiptArea.append("==================\n");
+        }
+    }
+
+    private boolean isValidAadhar(String aadhar) {
+       
