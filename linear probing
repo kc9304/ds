@@ -1,0 +1,70 @@
+#include<stdio.h>
+#define size 10
+int hash(int key)
+{
+	return (3*key+2)%size;  //h(k)=3k+2
+}
+
+void insert(int ht[] , int key)
+{
+	int index=hash(key);
+	while(ht[index]!=-1)
+	{
+		printf("%d index is per occupied\n",index);
+		index=(index+1)%size;
+	}
+	ht[index]=key;
+	printf("%d is inserted at index %d\n",key,index);
+}
+
+void display(int ht[])
+{
+	int i=0;
+	printf("the hashtable is \n");
+	while(i<size)
+	{
+		if(ht[i]==-1)
+		    printf(" - ,");
+		else
+	    	printf("%d , ",ht[i]);
+	    	i++;
+	}
+	printf("\n");
+}
+
+int search(int ht[],int key)
+{
+	int index=hash(key);
+	while(ht[index]!=key)
+	{
+		index=(index+1)%size;
+		if(ht[index]==-1||ht[index]==hash(key))
+		return -1;
+	}
+	return index;
+}
+
+int main()
+{
+	int ht[size],i;
+	for(i=0; i<size; i++)
+	{
+		ht[i]=-1;
+	}
+	insert(ht,2);
+	insert(ht,3);
+	insert(ht,5);
+	insert(ht,7);
+	insert(ht,11);
+	insert(ht,12);
+	insert(ht,9);
+	display(ht);
+	int s=search (ht,7);
+	if(s==-1)
+	printf("not present\n");
+	else
+	printf("key found at index %d\n",s);
+	
+	return 0;
+}
+
