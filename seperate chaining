@@ -1,0 +1,82 @@
+#include<stdio.h>
+#include<stdlib.h>
+#define size 10
+struct node 
+{
+	int data;
+	struct node *next;
+};
+struct node * list[size];
+int hash(int key)
+{
+	return key%size;
+}
+void insert(int key)
+{
+	int loc=hash(key);
+	struct node *n=(struct node *)malloc(sizeof(struct node));
+	n->data=key;
+	n->next=NULL;
+	if(list[loc]==NULL)
+		list[loc]=n;
+	else
+	{
+		struct node *t=list[loc];
+		while(t->next !=NULL)
+			t=t->next;
+		t->next=n;
+	}
+}
+
+void display()
+{
+	int i;
+	struct node *t;
+	for(i=0;i<size;i++)
+	{
+		t=list[i];
+		printf("\nChain [%d] ",i);
+		while(t!=NULL)
+		{
+			printf("%d --> ",t->data);
+			t=t->next;
+		}
+		printf("NULL\n");
+	}
+}
+
+void search(int key)
+{
+	int loc=hash(key);
+	struct node *t=list[loc];
+	while(t!=NULL)
+	{
+		if(t->data == key)
+		{
+			printf("Key %d found in chain [%d]\n",key,loc);
+			return loc;
+		}
+		t=t->next;
+	}
+	printf("Key %d is not available.\n",key);
+	return -1;
+}
+
+int main()
+{
+	int i;
+	for (i=0;i<size;i++)
+		list[i]=NULL;
+	int keys[]={2,3,6,9,12,14,17,19,21,22,24,27,29,30,31,33,37,39,40,42,46,47,48,50};
+	for(i=0;i<24;i++)
+		printf("%d ",keys[i]);
+	for(i=0;i<24;i++)
+		insert(keys[i]);
+	
+	display();
+	search (29);
+	search(17);
+	search(28);
+	
+	return 0;
+}
