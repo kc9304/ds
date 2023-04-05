@@ -1,0 +1,190 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct node {
+	int data;
+	struct node * r;
+	struct node * l;
+}*root=NULL;
+
+
+struct node * insert(struct node * temp, int key) {//temp is always the start
+	
+	if(temp == NULL) {
+		struct node * n = (struct node*)malloc(sizeof(struct node));
+		n->l = n->r =NULL;
+		n->data=key;
+		return n;//returning the root 
+	}
+	else {
+		if(temp->data>key) {
+			temp->l=insert(temp->l,key);
+		}
+		else {
+			temp->r=insert(temp->r,key);
+		}
+		return temp;
+	}
+}
+
+
+void inorder(struct node * root){
+	
+	if(root==NULL)
+	return;
+	else {
+		inorder(root->l);
+		printf("%d   ",root->data);
+		inorder(root->r);
+	}
+}
+
+
+void preorder(struct node * root){
+	
+	if(root==NULL)
+	return;
+	else {
+		printf("%d   ",root->data);
+		preorder(root->l);
+		preorder(root->r);
+	}
+}
+
+
+void postorder(struct node * root){
+	
+	if(root==NULL)
+	return;
+	else {
+		postorder(root->l);
+		postorder(root->r);
+		printf("%d   ",root->data);
+	}
+}
+
+
+struct node * findMax(struct node * root) {
+	
+	if(root==NULL)
+	{
+		return NULL;
+	}
+	while(root->r!=NULL)
+	{
+		root=root->r;
+	}
+	return root;
+}
+
+
+struct node * findMin(struct node * root) {
+	
+	if(root==NULL)
+		return NULL;
+	while(root->l!=NULL)
+		root=root->l;
+	return root;
+}
+struct node * search(struct node * root,int key)
+{
+    if(root==NULL)
+    {
+        printf("\nkey %d is not present",key);
+        return root;
+    }
+    else
+    {
+        if(key==root->data)
+        {
+            printf("\n key %d found",key);
+            return root;
+        }
+        else if(key<root->data)
+        {
+            
+            search(root->l,key);
+          
+        }
+        else
+        {
+            search(root->r,key);
+        }
+    }
+}
+struct node * delete(struct node * root,int key)
+{
+    if(root==NULL)
+    {
+        return root;
+    }
+    else
+    {
+        if(key<root->data)
+        {
+            root->l=delete(root->l,key);
+        }
+        else if(key>root->data)
+        {
+            root->r=delete(root->r,key);
+        }
+        else
+        {
+            if(root->l==NULL&&root->r==NULL)
+            {
+                free(root);
+                return NULL;
+            }
+            else if(root->l=NULL)
+            {
+                struct node *t=root->r;
+                free(root);
+                return t;
+            }
+            else if(root->r==NULL)
+            {
+                struct node *t=root->l;
+                free(root);
+                return t;
+            }
+            else
+            {
+                struct node * temp=findMax(root->l);
+                root->data=temp->data;//root value changed
+                root->l=delete(root->l,temp->data);
+                
+            }
+        }
+    }
+}
+void display()
+{
+    preorder(root);
+}
+
+
+
+int main() {
+	int a [] = {5,3,7,1,4,9,0,2,8,6};
+	for(int i=0;i<10;i++)
+	root=insert(root,a[i]);
+	printf("\nInorder:  ");
+	inorder(root);
+	printf("\nPreorder:  ");
+	preorder(root);
+	printf("\nPostorder:  ");
+	postorder(root);
+	struct node * t = findMin(root);
+	if(t!=NULL)
+		printf("\nMin= %d", t->data);
+	t=findMax(root);
+	if(t!=NULL)
+		printf("\nMax= %d", t->data);
+		search(root,4);
+		search(root,100);
+		delete(root,5);
+		display();
+		return 0;
+		
+}
+
